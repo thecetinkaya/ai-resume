@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/prismaClient"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int          @id @default(autoincrement())
+  name       String
+  email      String       @unique
+  password   String
+  createdAt  DateTime     @default(now())
+  cvAnalyses CvAnalysis[] // Reverse relation
+}
+
+model CvAnalysis {
+  id              String   @id @default(uuid())
+  userId          Int // Foreign key field
+  user            User     @relation(fields: [userId], references: [id])
+  fileName        String
+  uploadDate      DateTime @default(now())
+  analysisStatus  String
+  applicantName   String?
+  extractedSkills String?
+  matchScore      Int?
+  summary         String?
+
+  // Yeni hata analizi alanları
+  errors          String? // JSON array as string
+  suggestions     String? // JSON array as string  
+  strengths       String? // JSON array as string
+  missingSections String? // JSON array as string
+
+  @@map("cv_analyses")
+}
