@@ -19,13 +19,15 @@ import {
     LightMode as LightModeIcon,
     KeyboardArrowDown as ArrowDownIcon,
 } from '@mui/icons-material';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 export function HeaderUserProfile() {
     const router = useRouter();
     const { isDarkMode, toggleDarkMode } = useTheme();
+    const { user, logout } = useAuth();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -38,8 +40,8 @@ export function HeaderUserProfile() {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        router.push('/auth/login');
+        logout();
+        router.push('/login');
         handleClose();
     };
 
@@ -100,8 +102,10 @@ export function HeaderUserProfile() {
                     width: 32,
                     height: 32,
                     bgcolor: 'primary.main',
+                    fontSize: '14px',
+                    fontWeight: 600,
                 }}>
-                    <ProfileIcon sx={{ fontSize: 18 }} />
+                    {user?.name?.[0]?.toUpperCase() || <ProfileIcon sx={{ fontSize: 18 }} />}
                 </Avatar>
                 <Box sx={{ display: { xs: 'none', sm: 'block' }, minWidth: 0 }}>
                     <Typography
@@ -114,7 +118,7 @@ export function HeaderUserProfile() {
                         }}
                         noWrap
                     >
-                        Kullanıcı
+                        {user?.name || 'Kullanıcı'}
                     </Typography>
                     <Typography
                         variant="caption"
@@ -125,7 +129,7 @@ export function HeaderUserProfile() {
                         }}
                         noWrap
                     >
-                        Admin
+                        {user?.email || 'admin@example.com'}
                     </Typography>
                 </Box>
                 <ArrowDownIcon sx={{
@@ -186,12 +190,17 @@ export function HeaderUserProfile() {
                         backgroundColor: 'action.hover',
                     },
                 }}>
-                    <Avatar sx={{ mr: 2, bgcolor: 'primary.main' }}>
-                        <ProfileIcon />
+                    <Avatar sx={{
+                        mr: 2,
+                        bgcolor: 'primary.main',
+                        fontSize: '14px',
+                        fontWeight: 600,
+                    }}>
+                        {user?.name?.[0]?.toUpperCase() || <ProfileIcon />}
                     </Avatar>
                     <Box>
                         <Typography variant="body2" fontWeight="600">
-                            Profil
+                            {user?.name || 'Kullanıcı'}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
                             Hesap ayarları

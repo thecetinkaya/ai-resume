@@ -1,6 +1,7 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { AuthProvider } from '@/contexts/AuthContext';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   weight: ['300', '400', '500', '600', '700', '800'],
@@ -16,7 +17,9 @@ export default function RootLayout(props: { children: React.ReactNode }) {
       <body>
         <AppRouterCacheProvider>
           <ThemeProvider>
-            {children}
+            <AuthProvider>
+              {children}
+            </AuthProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

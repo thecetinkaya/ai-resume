@@ -33,8 +33,9 @@ export default function AuthLogin({ subtext, subtitle }: AuthLoginProps) {
             const data = await response.json();
 
             if (response.ok) {
-                // Token'ı localStorage'a kaydet
+                // Token ve kullanıcı bilgilerini localStorage'a kaydet
                 localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
 
                 // Başarılı giriş - dashboard'a yönlendir
                 router.push('/dashboard');
@@ -53,7 +54,7 @@ export default function AuthLogin({ subtext, subtitle }: AuthLoginProps) {
     return (
         <Box>
             {subtext}
-            
+
             <Box
                 component="form"
                 onSubmit={handleSubmit}

@@ -42,8 +42,9 @@ export default function AuthRegister({ subtext, subtitle }: AuthRegisterProps) {
             const data = await response.json();
 
             if (response.ok) {
-                // Token'ı localStorage'a kaydet
+                // Token ve kullanıcı bilgilerini localStorage'a kaydet
                 localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
 
                 // Başarılı kayıt - dashboard'a yönlendir
                 router.push('/dashboard');
@@ -62,7 +63,7 @@ export default function AuthRegister({ subtext, subtitle }: AuthRegisterProps) {
     return (
         <Box>
             {subtext}
-            
+
             <Box
                 component="form"
                 onSubmit={handleSubmit}
