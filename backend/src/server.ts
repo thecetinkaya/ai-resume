@@ -57,6 +57,38 @@ app.post('/api/analyze-cv', authenticate, upload.single('cvFile'), async (req: A
     }
 });
 
+// GET /api/my-analyses/stats - Kullanıcının analiz istatistikleri
+app.get('/api/my-analyses/stats', authenticate, async (req: AuthRequest, res) => {
+    try {
+        const userId = parseInt(req.userId!);
+
+        // Toplam analiz sayısı
+        const totalCount = await prisma.cvAnalysis.count({ where: { userId } });
+
+        // Ortalama puan (null olmayanlar)
+        const avgResult = await prisma.cvAnalysis.aggregate({
+            where: { userId, matchScore: { not: null } },
+            _avg: { matchScore: true }
+        });
+
+        // Son analiz tarihi
+        const lastAnalysis = await prisma.cvAnalysis.findFirst({
+            where: { userId },
+            orderBy: { uploadDate: 'desc' },
+            select: { uploadDate: true }
+        });
+
+        res.status(200).json({
+            totalCount,
+            averageScore: avgResult._avg.matchScore ?? null,
+            lastAnalysisDate: lastAnalysis?.uploadDate ?? null
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ message: 'İstatistikler getirilemedi.' });
+    }
+});
+
 // GET /api/analysis/:id (Auth required)
 app.get('/api/analysis/:id', authenticate, async (req: AuthRequest, res) => {
     const analysisId = req.params.id;
@@ -102,14 +134,73 @@ app.get('/api/my-analyses', authenticate, async (req: AuthRequest, res) => {
                 analysisStatus: true,
                 matchScore: true,
                 applicantName: true,
+                summary: true,
+                extractedSkills: true,
+                errors: true,
+                suggestions: true,
+                strengths: true,
+                missingSections: true,
             },
             orderBy: { uploadDate: 'desc' }
         });
 
-        res.status(200).json(analyses);
+        // JSON string'leri parse et
+        const formattedAnalyses = analyses.map(analysis => ({
+            ...analysis,
+            errors: analysis.errors ? JSON.parse(analysis.errors) : [],
+            suggestions: analysis.suggestions ? JSON.parse(analysis.suggestions) : [],
+            strengths: analysis.strengths ? JSON.parse(analysis.strengths) : [],
+            missingSections: analysis.missingSections ? JSON.parse(analysis.missingSections) : [],
+        }));
+
+        res.status(200).json(formattedAnalyses);
     } catch (error) {
         console.error(error);
         res.status(500).send({ message: 'Analizler getirilemedi.' });
+    }
+});
+
+// DELETE /api/analysis/:id - Kullanıcının bir analiz kaydını silmesi
+app.delete('/api/analysis/:id', authenticate, async (req: AuthRequest, res) => {
+    const analysisId = req.params.id;
+    try {
+        // Önce kayıt kullanıcıya mı ait kontrol et
+        const record = await prisma.cvAnalysis.findUnique({
+            where: { id: analysisId },
+            select: { id: true, userId: true }
+        });
+
+        if (!record || record.userId !== parseInt(req.userId!)) {
+            return res.status(404).json({ message: 'Analiz bulunamadı.' });
+        }
+
+        await prisma.cvAnalysis.delete({ where: { id: analysisId } });
+        return res.status(204).send();
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Analiz silinemedi.' });
+    }
+});
+
+// DELETE /api/my-analyses - Kullanıcının birden çok analizini silmesi (ids body içinde)
+app.delete('/api/my-analyses', authenticate, async (req: AuthRequest, res) => {
+    try {
+        const userId = parseInt(req.userId!);
+        const ids = Array.isArray(req.body?.ids) ? (req.body.ids as string[]) : [];
+
+        if (!ids.length) {
+            return res.status(400).json({ message: 'Silinecek kayıt id listesi gerekli.' });
+        }
+
+        // Sadece kullanıcıya ait id'ler silinsin
+        const result = await prisma.cvAnalysis.deleteMany({
+            where: { id: { in: ids }, userId }
+        });
+
+        return res.status(200).json({ deletedCount: result.count });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Toplu silme işlemi başarısız.' });
     }
 });
 
