@@ -23,6 +23,7 @@ import {
 } from '@mui/icons-material';
 import { useEffect, useRef, useState } from 'react';
 import { keyframes } from '@emotion/react';
+import { config } from '@/config/api';
 
 export default function CVAnalysisPage() {
     const [file, setFile] = useState<File | null>(null);
@@ -63,7 +64,7 @@ export default function CVAnalysisPage() {
 
             const token = localStorage.getItem('token');
 
-            const response = await fetch('http://localhost:3001/api/analyze-cv', {
+            const response = await fetch(`${config.apiUrl}/api/analyze-cv`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -104,7 +105,7 @@ export default function CVAnalysisPage() {
         }
         } catch (error) {
             console.error('Upload error:', error);
-            setError('Sunucuya bağlanırken hata oluştu. Backend sunucusunun localhost:3001\'de çalıştığından emin olun.');
+            setError('Sunucuya bağlanırken hata oluştu. Backend sunucusunun çalıştığından emin olun.');
         } finally {
             setUploading(false);
         }
@@ -117,7 +118,7 @@ export default function CVAnalysisPage() {
         const poll = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await fetch(`http://localhost:3001/api/analysis/${analysisId}`, {
+                const res = await fetch(`${config.apiUrl}/api/analysis/${analysisId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     }

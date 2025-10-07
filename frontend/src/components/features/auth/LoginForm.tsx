@@ -1,10 +1,10 @@
-// src/components/features/Auth/LoginForm.tsx
 'use client';
 
 import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, Link as MuiLink, Alert, CircularProgress } from '@mui/material';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
+import { config } from '@/config/api';
 
 export function LoginForm() {
     const [email, setEmail] = useState('');
@@ -19,7 +19,7 @@ export function LoginForm() {
         setError('');
 
         try {
-            const response = await fetch('http://localhost:3001/api/auth/login', {
+            const response = await fetch(`${config.apiUrl}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

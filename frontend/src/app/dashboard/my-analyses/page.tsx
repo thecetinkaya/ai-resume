@@ -9,6 +9,7 @@ import AnalysesToolbar from '@/components/dashboard/analyses/AnalysesToolbar';
 import EmptyAnalyses from '@/components/dashboard/analyses/EmptyAnalyses';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { config } from '@/config/api';
 
 // Using Analysis type from component
 
@@ -39,7 +40,7 @@ export default function MyAnalysesPage() {
     const fetchAnalyses = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:3001/api/my-analyses', {
+            const response = await fetch(`${config.apiUrl}/api/my-analyses`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
@@ -85,7 +86,7 @@ export default function MyAnalysesPage() {
         try {
             setDeleting(true);
             const token = localStorage.getItem('token');
-            const res = await fetch(`http://localhost:3001/api/analysis/${id}`, {
+            const res = await fetch(`${config.apiUrl}/api/analysis/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -120,7 +121,7 @@ export default function MyAnalysesPage() {
         try {
             setDeleting(true);
             const token = localStorage.getItem('token');
-            const res = await fetch('http://localhost:3001/api/my-analyses', {
+            const res = await fetch(`${config.apiUrl}/api/my-analyses`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

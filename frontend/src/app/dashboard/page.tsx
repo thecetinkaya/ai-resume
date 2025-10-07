@@ -5,6 +5,7 @@ import { PageHeader } from '@/components/dashboard/PageHeader';
 import { Box, Typography, Card, CardContent, Grid, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { config } from '@/config/api';
 
 export default function DashboardPage() {
     const router = useRouter();
@@ -15,7 +16,7 @@ export default function DashboardPage() {
         const fetchStats = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const res = await fetch('http://localhost:3001/api/my-analyses/stats', {
+                const res = await fetch(`${config.apiUrl}/api/my-analyses/stats`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

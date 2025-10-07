@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, Link as MuiLink, Alert, CircularProgress } from '@mui/material';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
+import { config } from '@/config/api';
 
 export function RegisterForm() {
     const [name, setName] = useState('');
@@ -27,7 +28,7 @@ export function RegisterForm() {
         }
 
         try {
-            const response = await fetch('http://localhost:3001/api/auth/register', {
+            const response = await fetch(`${config.apiUrl}/api/auth/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
