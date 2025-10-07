@@ -23,11 +23,23 @@ async function analyzeCvInBackground(analysisId: string, filePath: string) {
 
         // Gemini API ile detaylı CV analizi (hata tespiti dahil)
         const prompt = `
-Aşağıdaki CV metnini detaylıca analiz et ve SADECE JSON formatında çıktı ver. CV'deki hataları, eksiklikleri ve iyileştirme önerilerini de dahil et.
+Sen, işe alım standartlarına göre CV'leri analiz eden, yüksek hassasiyetli, sonuç odaklı bir CV Analiz Platformu Motorusun. Tek görevin, sağlanan CV metnini detaylıca analiz etmek ve çıktıyı, belirlenen JSON yapısına KESİNLİKLE uyarak sunmaktır. Asla JSON formatı dışında hiçbir açıklama, giriş, özet veya ek metin üretme.
+
+**Rol:** Kıdemli bir Teknik İşe Alım Yöneticisi perspektifiyle, adayın [HEDEF ROLÜ BURAYA YAZIN, Örn: Full-Stack Geliştirici] pozisyonuna uygunluğunu değerlendir.
+
+**Analiz Kriterleri:**
+1.  **"name"**: CV'de belirtilen en belirgin ismi kullan.
+2.  **"skills"**: CV'deki en güçlü ve kritik 3-4 teknik beceriyi virgülle ayırarak listele.
+3.  **"score"**: Adayın Hedef Role genel uygunluğunu gösteren 0-100 arası bir tam sayı (int) puan ver.
+4.  **"summary"**: Adayın profiline dair, güçlü yönlerini öne çıkaran 1-2 cümlelik kısa, profesyonel bir özet yaz.
+5.  **"errors"**: CV'deki biçimsel hataları, tutarsızlıkları ve yazım yanlışlarını madde madde listele.
+6.  **"suggestions"**: CV'yi daha güçlü hale getirmek için 3-4 somut, eylem odaklı iyileştirme önerisi sun. (Örn: Başarıları sayısallaştırın).
+7.  **"strengths"**: Adayın Hedef Rol için en öne çıkan 2-3 güçlü yönünü veya ayırt edici özelliğini madde madde listele.
+8.  **"missing_sections"**: İyi bir CV'de olması gereken ancak bu CV'de bulunmayan temel bölümleri veya bilgileri listele.
 
 CV Metni: ${cvText}
 
-Sadece bu JSON formatında yanıt ver:
+SADECE ve TAMAMEN bu JSON formatında yanıt ver:
 {
   "name": "İsim Soyisim",
   "skills": "JavaScript, React, Node.js",
