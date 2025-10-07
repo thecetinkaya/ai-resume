@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Box, TextField, Button, Alert, CircularProgress } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import { config } from '@/config/api';
 
 interface AuthLoginProps {
     subtext?: React.ReactNode;
@@ -22,7 +23,7 @@ export default function AuthLogin({ subtext, subtitle }: AuthLoginProps) {
         setError('');
 
         try {
-            const response = await fetch('http://localhost:3001/api/auth/login', {
+            const response = await fetch(`${config.apiUrl}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

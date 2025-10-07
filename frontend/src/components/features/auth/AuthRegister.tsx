@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Box, TextField, Button, Alert, CircularProgress } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import { config } from '@/config/api';
 
 interface AuthRegisterProps {
     subtext?: React.ReactNode;
@@ -31,7 +32,7 @@ export default function AuthRegister({ subtext, subtitle }: AuthRegisterProps) {
         }
 
         try {
-            const response = await fetch('http://localhost:3001/api/auth/register', {
+            const response = await fetch(`${config.apiUrl}/api/auth/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
