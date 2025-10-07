@@ -4,9 +4,10 @@
   "description": "AI-powered CV analysis platform with user authentication and comprehensive error detection using Google Gemini API",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "npx prisma generate && tsc",
     "start": "npm run migrate && node dist/server.js",
     "migrate": "npx prisma db push",
+    "postinstall": "npx prisma generate",
     "dev": "ts-node-dev --respawn src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
