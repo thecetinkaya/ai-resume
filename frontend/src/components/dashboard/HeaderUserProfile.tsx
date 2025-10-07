@@ -146,6 +146,8 @@ export function HeaderUserProfile() {
                 open={open}
                 onClose={handleClose}
                 onClick={handleClose}
+                disableScrollLock
+                keepMounted
                 PaperProps={{
                     elevation: 0,
                     sx: {
@@ -183,6 +185,13 @@ export function HeaderUserProfile() {
                 }}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                slotProps={{
+                    paper: {
+                        sx: {
+                            maxWidth: { xs: 260, sm: 320 }
+                        }
+                    }
+                }}
             >
                 <MenuItem sx={{
                     color: 'text.primary',

@@ -25,7 +25,7 @@ export function PageHeader({ title, subtitle, children }: PageHeaderProps) {
             }}
         >
             <CardContent sx={{ p: 3 }}>
-                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'flex-start', sm: 'center' }} gap={{ xs: 2, sm: 0 }}>
                     <Box>
                         <Typography
                             variant="h5"
@@ -51,7 +51,7 @@ export function PageHeader({ title, subtitle, children }: PageHeaderProps) {
                         )}
                     </Box>
                     {children && (
-                        <Box>
+                        <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
                             {children}
                         </Box>
                     )}

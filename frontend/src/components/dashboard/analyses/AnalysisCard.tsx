@@ -98,19 +98,15 @@ export function AnalysisCard(props: AnalysisCardProps) {
                 borderColor: 'primary.main',
             })
         }}>
-            <CardContent sx={{ p: 2 }}>
-                <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <Box display="flex" alignItems="center" flex={1}>
-                        <Checkbox
-                            checked={selected}
-                            onChange={onToggleSelect}
-                            sx={{ mr: 1 }}
-                        />
+            <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
+                <Box display="flex" flexDirection={{ xs: 'row', sm: 'row' }} gap={1.5} alignItems={{ xs: 'center', sm: 'center' }}>
+                    {/* Mobile layout */}
+                    <Box sx={{ display: { xs: 'flex', sm: 'none' }, flex: 1, alignItems: 'center', gap: 1.25 }}>
+                        <Checkbox checked={selected} onChange={onToggleSelect} sx={{ p: 0.5 }} />
                         <Avatar sx={{
-                            mr: 2,
                             background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                            width: 40,
-                            height: 40
+                            width: 36,
+                            height: 36
                         }}>
                             {analysis.applicantName?.charAt(0) || 'CV'}
                         </Avatar>
@@ -118,92 +114,98 @@ export function AnalysisCard(props: AnalysisCardProps) {
                             <Typography
                                 variant="subtitle1"
                                 fontWeight="bold"
-                                noWrap
-                                sx={{ color: 'text.primary' }}
+                                sx={{
+                                    color: 'text.primary',
+                                    display: '-webkit-box',
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: 'vertical',
+                                    overflow: 'hidden'
+                                }}
                             >
                                 {analysis.fileName}
                             </Typography>
-                            <Typography
-                                variant="caption"
-                                sx={{ color: 'text.secondary' }}
-                            >
+                            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                                 {formatDate(analysis.uploadDate)}
                                 {analysis.applicantName && ` • ${analysis.applicantName}`}
                                 {isProcessing && ' • İşleniyor...'}
                             </Typography>
+                            {/* Chips below on mobile */}
+                            <Box display="flex" gap={1} sx={{ mt: 1 }}>
+                                <Chip icon={<ScoreIcon />} label={`${analysis.matchScore || 0}`} color={getScoreColor(analysis.matchScore || 0)} size="small" />
+                                <Chip label={`${analysis.errors?.length || 0} hata`} color="error" size="small" variant="outlined" sx={{ borderColor: 'rgba(239, 68, 68, 0.5)', color: '#ef4444' }} />
+                                <Chip label={`${analysis.strengths?.length || 0} güçlü`} color="success" size="small" variant="outlined" sx={{ borderColor: 'rgba(34, 197, 94, 0.5)', color: '#22c55e' }} />
+                            </Box>
                         </Box>
                     </Box>
 
-                    <Box display="flex" alignItems="center" gap={1}>
-                        <Chip
-                            icon={<ScoreIcon />}
-                            label={`${analysis.matchScore || 0}`}
-                            color={getScoreColor(analysis.matchScore || 0)}
-                            size="small"
-                        />
-                        <Chip
-                            label={`${analysis.errors?.length || 0} hata`}
-                            color="error"
-                            size="small"
-                            variant="outlined"
-                            sx={{
-                                borderColor: 'rgba(239, 68, 68, 0.5)',
-                                color: '#ef4444',
-                            }}
-                        />
-                        <Chip
-                            label={`${analysis.strengths?.length || 0} güçlü`}
-                            color="success"
-                            size="small"
-                            variant="outlined"
-                            sx={{
-                                borderColor: 'rgba(34, 197, 94, 0.5)',
-                                color: '#22c55e',
-                            }}
-                        />
-
-                        <IconButton
-                            size="small"
-                            onClick={onToggleExpand}
-                            sx={{
-                                ml: 1,
-                                color: 'text.secondary',
-                                '&:hover': {
-                                    backgroundColor: 'action.hover',
-                                    color: 'text.primary',
-                                },
-                            }}
-                        >
+                    {/* Actions on right for mobile - vertically centered */}
+                    <Box sx={{ display: { xs: 'flex', sm: 'none' }, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 0.5 }}>
+                        <IconButton size="small" onClick={onToggleExpand} sx={{ color: 'text.secondary', '&:hover': { backgroundColor: 'action.hover', color: 'text.primary' } }}>
                             {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                         </IconButton>
-
-                        <IconButton
-                            size="small"
-                            sx={{
-                                ml: 0.5,
-                                color: 'text.secondary',
-                                '&:hover': {
-                                    backgroundColor: 'action.hover',
-                                    color: 'text.primary',
-                                },
-                            }}
-                        >
+                        <IconButton size="small" sx={{ color: 'text.secondary', '&:hover': { backgroundColor: 'action.hover', color: 'text.primary' } }}>
                             <DownloadIcon />
                         </IconButton>
-                        <IconButton
-                            size="small"
-                            onClick={onDelete}
-                            sx={{
-                                color: 'error.main',
-                                '&:hover': {
-                                    backgroundColor: 'error.lighter',
-                                    color: '#ef4444',
-                                },
-                            }}
-                            disabled={deleting}
-                        >
+                        <IconButton size="small" onClick={onDelete} sx={{ color: 'error.main', '&:hover': { backgroundColor: 'error.lighter', color: '#ef4444' } }} disabled={deleting}>
                             <DeleteIcon />
                         </IconButton>
+                    </Box>
+
+                    {/* Desktop layout (hidden on mobile) */}
+                    <Box sx={{ display: { xs: 'none', sm: 'flex' }, flex: 1, alignItems: 'center', gap: 1.5 }}>
+                        {/* Left: identity + meta */}
+                        <Box flex={1} minWidth={0}>
+                            <Box display="flex" alignItems="center" gap={1.25}>
+                                <Checkbox checked={selected} onChange={onToggleSelect} sx={{ p: 0.5 }} />
+                                <Avatar sx={{
+                                    background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+                                    width: 40,
+                                    height: 40
+                                }}>
+                                    {analysis.applicantName?.charAt(0) || 'CV'}
+                                </Avatar>
+                                <Box flex={1} minWidth={0}>
+                                    <Typography
+                                        variant="subtitle1"
+                                        fontWeight="bold"
+                                        sx={{
+                                            color: 'text.primary',
+                                            display: '-webkit-box',
+                                            WebkitLineClamp: 2,
+                                            WebkitBoxOrient: 'vertical',
+                                            overflow: 'hidden'
+                                        }}
+                                    >
+                                        {analysis.fileName}
+                                    </Typography>
+                                    <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                                        {formatDate(analysis.uploadDate)}
+                                        {analysis.applicantName && ` • ${analysis.applicantName}`}
+                                        {isProcessing && ' • İşleniyor...'}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
+
+                        {/* Center: chips in row */}
+                        <Box display="flex" alignItems="center" gap={1} minWidth={300}>
+                            <Chip icon={<ScoreIcon />} label={`${analysis.matchScore || 0}`} color={getScoreColor(analysis.matchScore || 0)} size="small" />
+                            <Chip label={`${analysis.errors?.length || 0} hata`} color="error" size="small" variant="outlined" sx={{ borderColor: 'rgba(239, 68, 68, 0.5)', color: '#ef4444' }} />
+                            <Chip label={`${analysis.strengths?.length || 0} güçlü`} color="success" size="small" variant="outlined" sx={{ borderColor: 'rgba(34, 197, 94, 0.5)', color: '#22c55e' }} />
+                        </Box>
+
+                        {/* Right: actions in row */}
+                        <Box display="flex" alignItems="center" gap={0.5}>
+                            <IconButton size="small" onClick={onToggleExpand} sx={{ color: 'text.secondary', '&:hover': { backgroundColor: 'action.hover', color: 'text.primary' } }}>
+                                {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                            </IconButton>
+                            <IconButton size="small" sx={{ color: 'text.secondary', '&:hover': { backgroundColor: 'action.hover', color: 'text.primary' } }}>
+                                <DownloadIcon />
+                            </IconButton>
+                            <IconButton size="small" onClick={onDelete} sx={{ color: 'error.main', '&:hover': { backgroundColor: 'error.lighter', color: '#ef4444' } }} disabled={deleting}>
+                                <DeleteIcon />
+                            </IconButton>
+                        </Box>
                     </Box>
                 </Box>
             </CardContent>

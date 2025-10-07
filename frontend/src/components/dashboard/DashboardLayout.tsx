@@ -31,7 +31,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     const drawer = <DashboardSidebar />;
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', width: '100%', overflowX: 'hidden' }}>
             {/* App Bar */}
             <AppBar
                 position="fixed"
@@ -122,7 +122,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 sx={{
                     flexGrow: 1,
                     p: 3,
-                    width: { sm: `calc(100% - ${drawerWidth}px)` },
+                    width: { xs: '100%', sm: `calc(100% - ${drawerWidth}px)` },
                     minHeight: '100vh',
                     backgroundColor: 'background.default',
                     position: 'relative',
