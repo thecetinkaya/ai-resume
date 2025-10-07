@@ -10,6 +10,7 @@ interface AuthRegisterProps {
 }
 
 export default function AuthRegister({ subtext, subtitle }: AuthRegisterProps) {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -35,7 +36,7 @@ export default function AuthRegister({ subtext, subtitle }: AuthRegisterProps) {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ email, password, name }),
             });
 
             const data = await response.json();
@@ -77,6 +78,17 @@ export default function AuthRegister({ subtext, subtitle }: AuthRegisterProps) {
                         {error}
                     </Alert>
                 )}
+
+                <TextField
+                    label="Ad Soyad"
+                    type="text"
+                    variant="outlined"
+                    fullWidth
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    disabled={loading}
+                />
 
                 <TextField
                     label="E-posta Adresi"

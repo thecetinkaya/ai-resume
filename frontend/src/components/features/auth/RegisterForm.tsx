@@ -6,6 +6,7 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export function RegisterForm() {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -31,7 +32,7 @@ export function RegisterForm() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ email, password, name }),
             });
 
             const data = await response.json();
@@ -78,6 +79,17 @@ export function RegisterForm() {
                     {error}
                 </Alert>
             )}
+
+            <TextField
+                label="Ad Soyad"
+                type="text"
+                variant="outlined"
+                fullWidth
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                disabled={loading}
+            />
 
             <TextField
                 label="E-posta Adresi"
