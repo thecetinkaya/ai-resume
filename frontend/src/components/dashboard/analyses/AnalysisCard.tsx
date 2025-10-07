@@ -220,7 +220,7 @@ export function AnalysisCard(props: AnalysisCardProps) {
                                     Analiz sürüyor...
                                 </Typography>
                                 <Box display="flex" flexDirection="column" gap={1.5}>
-                                    {[ 'Metin çıkartılıyor', 'Özellikler ayrıştırılıyor', 'Güçlü yönler belirleniyor', 'Özet hazırlanıyor' ].map((step, index) => (
+                                    {['Metin çıkartılıyor', 'Özellikler ayrıştırılıyor', 'Güçlü yönler belirleniyor', 'Özet hazırlanıyor'].map((step, index) => (
                                         <Box key={index} display="flex" alignItems="center" gap={1}>
                                             <Box sx={{
                                                 width: 8,
@@ -247,109 +247,109 @@ export function AnalysisCard(props: AnalysisCardProps) {
                         )}
 
                         {!isProcessing && (
-                        <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={3}>
-                            <Box flex={1}>
-                                <Box display="flex" alignItems="center" mb={2}>
-                                    <ErrorIcon sx={{ mr: 1, fontSize: 20, color: '#ef4444' }} />
-                                    <Typography
-                                        variant="subtitle2"
-                                        fontWeight="bold"
-                                        sx={{ color: 'text.primary' }}
-                                    >
-                                        Hatalar ({analysis.errors?.length || 0})
-                                    </Typography>
-                                </Box>
-                                <List dense>
-                                    {analysis.errors?.map((error, index) => (
-                                        <ListItem key={index} sx={{ py: 0.5, px: 0 }}>
-                                            <ListItemText
-                                                primary={`• ${error}`}
-                                                primaryTypographyProps={{
-                                                    variant: 'body2',
-                                                    color: 'text.secondary',
-                                                }}
-                                            />
-                                        </ListItem>
-                                    ))}
-                                    {(!analysis.errors || analysis.errors.length === 0) && (
+                            <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={3}>
+                                <Box flex={1}>
+                                    <Box display="flex" alignItems="center" mb={2}>
+                                        <ErrorIcon sx={{ mr: 1, fontSize: 20, color: '#ef4444' }} />
                                         <Typography
-                                            variant="body2"
-                                            sx={{ color: 'success.main' }}
+                                            variant="subtitle2"
+                                            fontWeight="bold"
+                                            sx={{ color: 'text.primary' }}
                                         >
-                                            Hata bulunamadı ✓
+                                            Hatalar ({analysis.errors?.length || 0})
                                         </Typography>
-                                    )}
-                                </List>
-                            </Box>
+                                    </Box>
+                                    <List dense>
+                                        {analysis.errors?.map((error, index) => (
+                                            <ListItem key={index} sx={{ py: 0.5, px: 0 }}>
+                                                <ListItemText
+                                                    primary={`• ${error}`}
+                                                    primaryTypographyProps={{
+                                                        variant: 'body2',
+                                                        color: 'text.secondary',
+                                                    }}
+                                                />
+                                            </ListItem>
+                                        ))}
+                                        {(!analysis.errors || analysis.errors.length === 0) && (
+                                            <Typography
+                                                variant="body2"
+                                                sx={{ color: 'success.main' }}
+                                            >
+                                                Hata bulunamadı ✓
+                                            </Typography>
+                                        )}
+                                    </List>
+                                </Box>
 
-                            <Box flex={1}>
-                                <Box display="flex" alignItems="center" mb={2}>
-                                    <SuggestionIcon sx={{ mr: 1, fontSize: 20, color: '#f59e0b' }} />
-                                    <Typography
-                                        variant="subtitle2"
-                                        fontWeight="bold"
-                                        sx={{ color: 'text.primary' }}
-                                    >
-                                        Öneriler ({analysis.suggestions?.length || 0})
-                                    </Typography>
-                                </Box>
-                                <List dense>
-                                    {analysis.suggestions?.map((suggestion, index) => (
-                                        <ListItem key={index} sx={{ py: 0.5, px: 0 }}>
-                                            <ListItemText
-                                                primary={`• ${suggestion}`}
-                                                primaryTypographyProps={{
-                                                    variant: 'body2',
-                                                    color: 'text.secondary',
-                                                }}
-                                            />
-                                        </ListItem>
-                                    ))}
-                                    {(!analysis.suggestions || analysis.suggestions.length === 0) && (
+                                <Box flex={1}>
+                                    <Box display="flex" alignItems="center" mb={2}>
+                                        <SuggestionIcon sx={{ mr: 1, fontSize: 20, color: '#f59e0b' }} />
                                         <Typography
-                                            variant="body2"
-                                            sx={{ color: 'text.disabled' }}
+                                            variant="subtitle2"
+                                            fontWeight="bold"
+                                            sx={{ color: 'text.primary' }}
                                         >
-                                            Öneri bulunamadı
+                                            Öneriler ({analysis.suggestions?.length || 0})
                                         </Typography>
-                                    )}
-                                </List>
-                            </Box>
+                                    </Box>
+                                    <List dense>
+                                        {analysis.suggestions?.map((suggestion, index) => (
+                                            <ListItem key={index} sx={{ py: 0.5, px: 0 }}>
+                                                <ListItemText
+                                                    primary={`• ${suggestion}`}
+                                                    primaryTypographyProps={{
+                                                        variant: 'body2',
+                                                        color: 'text.secondary',
+                                                    }}
+                                                />
+                                            </ListItem>
+                                        ))}
+                                        {(!analysis.suggestions || analysis.suggestions.length === 0) && (
+                                            <Typography
+                                                variant="body2"
+                                                sx={{ color: 'text.disabled' }}
+                                            >
+                                                Öneri bulunamadı
+                                            </Typography>
+                                        )}
+                                    </List>
+                                </Box>
 
-                            <Box flex={1}>
-                                <Box display="flex" alignItems="center" mb={2}>
-                                    <SuccessIcon sx={{ mr: 1, fontSize: 20, color: '#22c55e' }} />
-                                    <Typography
-                                        variant="subtitle2"
-                                        fontWeight="bold"
-                                        sx={{ color: 'text.primary' }}
-                                    >
-                                        Güçlü Yönler ({analysis.strengths?.length || 0})
-                                    </Typography>
-                                </Box>
-                                <List dense>
-                                    {analysis.strengths?.map((strength, index) => (
-                                        <ListItem key={index} sx={{ py: 0.5, px: 0 }}>
-                                            <ListItemText
-                                                primary={`• ${strength}`}
-                                                primaryTypographyProps={{
-                                                    variant: 'body2',
-                                                    color: 'text.secondary',
-                                                }}
-                                            />
-                                        </ListItem>
-                                    ))}
-                                    {(!analysis.strengths || analysis.strengths.length === 0) && (
+                                <Box flex={1}>
+                                    <Box display="flex" alignItems="center" mb={2}>
+                                        <SuccessIcon sx={{ mr: 1, fontSize: 20, color: '#22c55e' }} />
                                         <Typography
-                                            variant="body2"
-                                            sx={{ color: 'text.disabled' }}
+                                            variant="subtitle2"
+                                            fontWeight="bold"
+                                            sx={{ color: 'text.primary' }}
                                         >
-                                            Güçlü yön bulunamadı
+                                            Güçlü Yönler ({analysis.strengths?.length || 0})
                                         </Typography>
-                                    )}
-                                </List>
+                                    </Box>
+                                    <List dense>
+                                        {analysis.strengths?.map((strength, index) => (
+                                            <ListItem key={index} sx={{ py: 0.5, px: 0 }}>
+                                                <ListItemText
+                                                    primary={`• ${strength}`}
+                                                    primaryTypographyProps={{
+                                                        variant: 'body2',
+                                                        color: 'text.secondary',
+                                                    }}
+                                                />
+                                            </ListItem>
+                                        ))}
+                                        {(!analysis.strengths || analysis.strengths.length === 0) && (
+                                            <Typography
+                                                variant="body2"
+                                                sx={{ color: 'text.disabled' }}
+                                            >
+                                                Güçlü yön bulunamadı
+                                            </Typography>
+                                        )}
+                                    </List>
+                                </Box>
                             </Box>
-                        </Box>
                         )}
                     </CardContent>
                 </Box>
