@@ -4,11 +4,11 @@ import { Grid, Box, Card, Stack, Typography } from "@mui/material";
 // components
 import PageContainer from "@/components/common/PageContainer";
 import Logo from "@/components/common/Logo";
-import AuthLogin from "@/components/features/auth/AuthLogin";
+import AuthRegister from "@/components/features/auth/AuthRegister";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
-    <PageContainer title="Login" description="AI Resume Analyzer Login Page">
+    <PageContainer title="Register" description="AI Resume Analyzer Register Page">
       <Box
         sx={{
           position: "relative",
@@ -47,7 +47,7 @@ export default function LoginPage() {
               <Box display="flex" alignItems="center" justifyContent="center">
                 <Logo />
               </Box>
-              <AuthLogin
+              <AuthRegister
                 subtext={
                   <Typography
                     variant="subtitle1"
@@ -70,18 +70,18 @@ export default function LoginPage() {
                       variant="h6"
                       fontWeight="500"
                     >
-                      Hesabın yok mu?
+                      Zaten hesabın var mı?
                     </Typography>
                     <Typography
                       component={Link}
-                      href="/register"
+                      href="/login"
                       fontWeight="500"
                       sx={{
                         textDecoration: "none",
                         color: "primary.main",
                       }}
                     >
-                      Hemen kayıt ol
+                      Giriş yap
                     </Typography>
                   </Stack>
                 }
